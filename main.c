@@ -42,8 +42,6 @@ int main(){
     // }
 
     despliegaMenu();
-    int lista[] = {5,4,6,7,5,2,2,4,5,76,8,32,52,2,5242,3,25,325,32,536,34,62,335,235,32};
-    selectionSort(lista, 11);
 
     return 0;
 }
@@ -51,7 +49,7 @@ int main(){
 /* Despliega el menu */
 void despliegaMenu(){
 
-    int opcionGenero;
+    int opcionGenero, opcionOrdenamiento;
     do{
         system("CLS"); // Limpia la pantalla (terminal)
         /*Formato*/
@@ -82,14 +80,65 @@ void despliegaMenu(){
                 break;
             case 1:
                 printf("\n-------------------------------------------------\n");
+                opcionOrdenamiento = eligeOrdenamiento();
+
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
-        
+                break;
+            case 2:
+                printf("\n-------------------------------------------------\n");
+                opcionOrdenamiento = eligeOrdenamiento();
+
+                system("PAUSE");
+                printf("-------------------------------------------------\n");
+                break;
+            case 3:
+                printf("\n-------------------------------------------------\n");
+                opcionOrdenamiento = eligeOrdenamiento();
+
+                system("PAUSE");
+                printf("-------------------------------------------------\n");
+                break;
+            case 4:
+                printf("\n-------------------------------------------------\n");
+                opcionOrdenamiento = eligeOrdenamiento();
+
+                system("PAUSE");
+                printf("-------------------------------------------------\n");
+                break;
+            case 5:
+                printf("\n-------------------------------------------------\n");
+                opcionOrdenamiento = eligeOrdenamiento();
+
+                system("PAUSE");
+                printf("-------------------------------------------------\n");
+                break;
+            case 6:
+                printf("\n-------------------------------------------------\n");
+                opcionOrdenamiento = eligeOrdenamiento();
+
+                system("PAUSE");
+                printf("-------------------------------------------------\n");
+                break;
             default:
                 break;
         }
 
     }while(opcionGenero != 0);
+}
+
+int eligeOrdenamiento(){
+    int opcionAlgoritmo;
+    system("CLS");
+    printf("\n-------------------------------------------------\n");
+    printf("1. Burbuja\n");
+    printf("2. Insercion\n");
+    printf("3. Seleccion\n");
+
+    printf("Elige el algoritmo de ordenamiento: ");
+    scanf("%d", &opcionAlgoritmo);
+    printf("-------------------------------------------------\n");
+    return opcionAlgoritmo;
 }
 
 void bubbleSort(int lista[], int n) {
