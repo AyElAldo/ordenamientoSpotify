@@ -5,6 +5,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
 #include"Cancion.h" // Incorpora la estructura creada
 
 #define MAX_COLUMNAS 6 // Numero maximo de columans a manejar en el CSV
@@ -41,7 +42,8 @@ int main(){
     // }
 
     despliegaMenu();
-    
+    int lista[] = {5,4,6,7,5,2,2,4,5,76,8,32,52,2,5242,3,25,325,32,536,34,62,335,235,32};
+    selectionSort(lista, 11);
 
     return 0;
 }
@@ -91,6 +93,10 @@ void despliegaMenu(){
 }
 
 void bubbleSort(int lista[], int n) {
+    clock_t inicio, fin;
+    double tiempo_transcurrido;
+    inicio = clock();
+
     int i,j;
     for (i = 0; i < n - 1; i++) {
         for (j = 0; j < n - i - 1; j++) {
@@ -102,9 +108,21 @@ void bubbleSort(int lista[], int n) {
             }
         }
     }
+
+    fin = clock();
+
+    // Calcula el tiempo transcurrido en segundos
+    tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
+
+    // Imprime el tiempo transcurrido
+    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 }
 
 void insertionSort(int lista[], int n) {
+    clock_t inicio, fin;
+    double tiempo_transcurrido;
+    inicio = clock();
+
     int i, llave, j;
 
     for (i = 1; i < n; i++) {
@@ -120,10 +138,24 @@ void insertionSort(int lista[], int n) {
         // Colocar llave en su posición correcta
         lista[j + 1] = llave;
     }
+
+
+    fin = clock();
+
+    // Calcula el tiempo transcurrido en segundos
+    tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
+
+    // Imprime el tiempo transcurrido
+    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 }
 
 void selectionSort(int lista[], int n) {
+    clock_t inicio, fin;
+    double tiempo_transcurrido;
+    inicio = clock();
+
     int i, j, minIndex;
+
 
     for (i = 0; i < n - 1; i++) {
         // Encontrar el índice del elemento mínimo en el sublista no ordenado
@@ -142,4 +174,12 @@ void selectionSort(int lista[], int n) {
             lista[i] = lista[i] ^ lista[minIndex];
         }
     }
+
+    fin = clock();
+
+    // Calcula el tiempo transcurrido en segundos
+    tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
+
+    // Imprime el tiempo transcurrido
+    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 }
