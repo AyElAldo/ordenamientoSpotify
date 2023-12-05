@@ -20,28 +20,55 @@ void selectionSort(int lista[], int n);
 
 int main(){
     
-    // /* Abrir archivo */
-    // char nombreArchivo[] = "spotify.csv"; // Almacena el nombre del archivo que contiene los datos
-    // // Se abre el CSV para solo lectura
-    // FILE *archivo = fopen("spotify.csv", "r");
-    // // Verifica que el archivo de abrio correctamente
-    // if(archivo == NULL){
-    //     perror("No se pudo abrir el archivo.");
-    //     exit(EXIT_FAILURE);
-    // }
+    /* Abrir archivo */
+    char nombreArchivo[] = "spotify.csv"; // Almacena el nombre del archivo que contiene los datos
+    // Se abre el CSV para solo lectura
+    FILE *archivo = fopen("spotify.csv", "r");
+    // Verifica que el archivo de abrio correctamente
+    if(archivo == NULL){
+        perror("No se pudo abrir el archivo.");
+        exit(EXIT_FAILURE);
+    }
 
-    // char linea[1000];
-    // while (fgets(linea, sizeof(linea), archivo) != NULL) {
-    //     // Procesar la línea (aquí puedes dividir la línea en columnas)
-    //     char *token = strtok(linea, ",");
+    char linea[1000];
+    int id_cancion_aux = 0;
+    // Lee cada linea y lo almacena en "linea"
+    while (fgets(linea, sizeof(linea), archivo) != NULL) {
+        // Procesar la línea (aquí puedes dividir la línea en columnas)
+        char *token = strtok(linea, ",");
+        char auxiliar[10]; // Almacena el dato que se convertira a Integer
+        
+        struct Cancion cancion;
+        cancion.id = ++id_cancion_aux;
+        token = strtok(NULL, ",");
+        strcpy(cancion.nombreCancion, token);
+        token = strtok(NULL, ",");
+        strcpy(cancion.nombreAlbum, token);
+        token = strtok(NULL, ",");
+        strcpy(cancion.genero, token);
+        token = strtok(NULL, ",");
+        strcpy(cancion.subgenero, token);
+        token = strtok(NULL, ",");
 
-    //     while (token != NULL) {
-    //         printf("%s ", token);
-    //         token = strtok(NULL, ",");
-    //     }
-    // }
+        strcpy(auxiliar, token);
+        cancion.duracion = atoi(auxiliar);
+        token = strtok(NULL, ",");
 
-    despliegaMenu();
+        /* Imprimir cadena */
+        printf("ID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
+        printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
+        printf("Nombre del album: %s\n", cancion.nombreAlbum);
+        printf("Genero: %s\n", cancion.genero);
+        printf("Subgenero: %s\n", cancion.subgenero);
+        printf("Duracion: %ld ms\n", cancion.duracion);
+
+        // while (token != NULL) {
+        //     printf("%s ", token);
+        //     token = strtok(NULL, ",");
+        // }
+    }
+
+    // despliegaMenu();
 
     return 0;
 }
@@ -127,6 +154,11 @@ void despliegaMenu(){
     }while(opcionGenero != 0);
 }
 
+/**
+ * @brief Da a escoger el tipo de ordenamiento a usar
+ * 
+ * @return int: La opcion elegida por el usuario
+ */
 int eligeOrdenamiento(){
     int opcionAlgoritmo;
     system("CLS");
