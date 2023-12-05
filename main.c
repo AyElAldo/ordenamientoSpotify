@@ -1,5 +1,10 @@
 /**
  * Programa de ordenamiento de canciones de acuerdo al genero escogido
+ * 
+ * 
+ * Podria hacer una cola para almacenar las canciones | O se guarda en un arreglo
+ * Solo reconoce POP. Falta implementar condiciones para los demas generos
+ * Hecho: 70%
  */
 
 #include<stdio.h>
