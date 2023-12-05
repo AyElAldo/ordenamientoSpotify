@@ -52,7 +52,7 @@ int main(){
         token = strtok(NULL, ",");
         strcpy(cancion.genero, token);
         token = strtok(NULL, ",");
-        strcpy(cancion.subgenero, token);
+        strcpy(cancion.nombreArtista, token);
         token = strtok(NULL, ",");
 
         strcpy(auxiliar, token);
@@ -62,9 +62,9 @@ int main(){
         /* Imprimir cadena */
         printf("ID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
         printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
+        printf("Nombre artista: %s\n", cancion.nombreArtista);
         printf("Nombre del album: %s\n", cancion.nombreAlbum);
         printf("Genero: %s\n", cancion.genero);
-        printf("Subgenero: %s\n", cancion.subgenero);
         printf("Duracion: %ld ms\n", cancion.duracion);
 
         // while (token != NULL) {
