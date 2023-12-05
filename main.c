@@ -17,6 +17,7 @@
 
 /* Prototipo de funciones */
 void despliegaMenu();
+void leeArchivo();
 
 // Algoritmos de Ordenamiento
 void bubbleSort(int lista[], int n);
@@ -25,56 +26,7 @@ void selectionSort(int lista[], int n);
 
 int main(){
     
-    /* Abrir archivo */
-    char nombreArchivo[] = "spotify.csv"; // Almacena el nombre del archivo que contiene los datos
-    // Se abre el CSV para solo lectura
-    FILE *archivo = fopen("spotify.csv", "r");
-    // Verifica que el archivo de abrio correctamente
-    if(archivo == NULL){
-        perror("No se pudo abrir el archivo.");
-        exit(EXIT_FAILURE);
-    }
-
-    char linea[1000];
-    int id_cancion_aux = 0;
-    // Lee cada linea y lo almacena en "linea"
-    while (fgets(linea, sizeof(linea), archivo) != NULL) {
-        // Procesar la línea (aquí puedes dividir la línea en columnas)
-        char *token = strtok(linea, ",");
-        char auxiliar[10]; // Almacena el dato que se convertira a Integer
-        
-        struct Cancion cancion;
-        cancion.id = ++id_cancion_aux;
-        token = strtok(NULL, ",");
-        strcpy(cancion.nombreCancion, token);
-        token = strtok(NULL, ",");
-        strcpy(cancion.nombreAlbum, token);
-        token = strtok(NULL, ",");
-        strcpy(cancion.genero, token);
-        token = strtok(NULL, ",");
-        strcpy(cancion.nombreArtista, token);
-        token = strtok(NULL, ",");
-
-        strcpy(auxiliar, token);
-        cancion.duracion = atoi(auxiliar);
-        token = strtok(NULL, ",");
-
-        /* Imprimir cadena */
-        printf("ID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
-        printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
-        printf("Nombre artista: %s\n", cancion.nombreArtista);
-        printf("Nombre del album: %s\n", cancion.nombreAlbum);
-        printf("Genero: %s\n", cancion.genero);
-        printf("Duracion: %ld ms\n", cancion.duracion);
-
-        // while (token != NULL) {
-        //     printf("%s ", token);
-        //     token = strtok(NULL, ",");
-        // }
-    }
-
-    // despliegaMenu();
-
+    leeArchivo();
     return 0;
 }
 
@@ -268,4 +220,46 @@ void selectionSort(int lista[], int n) {
 
     // Imprime el tiempo transcurrido
     printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
+}
+
+void leeArchivo(){
+    FILE *archivo = fopen("spotify.csv", "r");
+    // Verifica que el archivo de abrio correctamente
+    if(archivo == NULL){
+        perror("No se pudo abrir el archivo.");
+        exit(EXIT_FAILURE);
+    }
+
+    char linea[1000];
+    int id_cancion_aux = 0;
+    // Lee cada linea y lo almacena en "linea"
+    while (fgets(linea, sizeof(linea), archivo) != NULL) {
+        // Procesar la línea (aquí puedes dividir la línea en columnas)
+        char *token = strtok(linea, ",");
+        char auxiliar[10]; // Almacena el dato que se convertira a Integer
+        
+        struct Cancion cancion;
+        cancion.id = ++id_cancion_aux;
+        token = strtok(NULL, ",");
+        strcpy(cancion.nombreCancion, token);
+        token = strtok(NULL, ",");
+        strcpy(cancion.nombreAlbum, token);
+        token = strtok(NULL, ",");
+        strcpy(cancion.genero, token);
+        token = strtok(NULL, ",");
+        strcpy(cancion.nombreArtista, token);
+        token = strtok(NULL, ",");
+
+        strcpy(auxiliar, token);
+        cancion.duracion = atoi(auxiliar);
+        token = strtok(NULL, ",");
+
+        /* Imprimir cadena */
+        printf("ID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
+        printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
+        printf("Nombre artista: %s\n", cancion.nombreArtista);
+        printf("Nombre del album: %s\n", cancion.nombreAlbum);
+        printf("Genero: %s\n", cancion.genero);
+        printf("Duracion: %ld ms\n", cancion.duracion);
+    }
 }
