@@ -2,9 +2,6 @@
  * Programa de ordenamiento de canciones de acuerdo al genero escogido
  * 
  * 
- * Podria hacer una cola para almacenar las canciones | O se guarda en un arreglo
- * Solo reconoce POP. Falta implementar condiciones para los demas generos
- * Hecho: 70%
  */
 
 #include<stdio.h>
@@ -17,21 +14,28 @@
 
 /* Prototipo de funciones */
 void despliegaMenu();
-void leeArchivo();
-
+void leeArchivo(char nombre_archivo[], int renglones, char genero[]);
+void intercambiarCanciones(struct Cancion *c1, struct Cancion *c2);
 // Algoritmos de Ordenamiento
-void bubbleSort(int lista[], int n);
-void insertionSort(int lista[], int n);
+void bubbleSort(struct Cancion lista[], int n);
+// void insertionSort(int lista[], int n);
 void selectionSort(int lista[], int n);
 
+
+struct Cancion canciones_pop[1055];
+
 int main(){
-    
-    leeArchivo();
+    int i;
+    despliegaMenu();
+    // for(i = 0; i < 1055; i++){
+    //     printf("%d\n", canciones_pop[i].id);
+    // }
     return 0;
 }
 
 /* Despliega el menu */
 void despliegaMenu(){
+    int i;
 
     int opcionGenero, opcionOrdenamiento;
     do{
@@ -63,9 +67,16 @@ void despliegaMenu(){
                 printf("-------------------------------------------------\n");
                 break;
             case 1:
+                // 1055 canciones
                 printf("\n-------------------------------------------------\n");
                 opcionOrdenamiento = eligeOrdenamiento();
-
+                leeArchivo("pop.csv",1055, "pop");
+                if(opcionOrdenamiento == 1){
+                    bubbleSort(canciones_pop, 1055);
+                }
+                for(i = 0; i < 1055; i++){
+                    printf("%s: %ld\n", canciones_pop[i].nombreCancion, canciones_pop[i].duracion);
+                }
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
                 break;
@@ -130,19 +141,29 @@ int eligeOrdenamiento(){
     return opcionAlgoritmo;
 }
 
-void bubbleSort(int lista[], int n) {
+void intercambiarCanciones(struct Cancion *c1, struct Cancion *c2){
+    struct Cancion auxiliar = *c1;
+    *c1 = *c2;
+    *c2 = auxiliar;
+
+}
+
+void bubbleSort(struct Cancion lista[], int n) {
     clock_t inicio, fin;
     double tiempo_transcurrido;
     inicio = clock();
+
 
     int i,j;
     for (i = 0; i < n - 1; i++) {
         for (j = 0; j < n - i - 1; j++) {
             // Comparar elementos adyacentes y realizar el intercambio si es necesario
-            if (lista[j] > lista[j + 1]) {
-                lista[j] = lista[j] + lista[j + 1];
-                lista[j + 1] = lista[j] - lista[j + 1];
-                lista[j] = lista[j] - lista[j + 1];
+            if (lista[j].duracion > lista[j + 1].duracion) {
+                intercambiarCanciones(&lista[j], &lista[j+1]);
+                
+                // lista[j] = lista[j] + lista[j + 1];
+                // lista[j + 1] = lista[j] - lista[j + 1];
+                // lista[j] = lista[j] - lista[j + 1];
             }
         }
     }
@@ -153,39 +174,41 @@ void bubbleSort(int lista[], int n) {
     tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
 
     // Imprime el tiempo transcurrido
-    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
+    printf("Tiempo BubbleSort en ordenar: %f segundos\n", tiempo_transcurrido);
 }
 
-void insertionSort(int lista[], int n) {
-    clock_t inicio, fin;
-    double tiempo_transcurrido;
-    inicio = clock();
+// void insertionSort(struct Cancion lista[], int n) {
+//     clock_t inicio, fin;
+//     double tiempo_transcurrido;
+//     inicio = clock();
 
-    int i, llave, j;
+//     struct Cancion cancion_aux;
 
-    for (i = 1; i < n; i++) {
-        llave = lista[i];
-        j = i - 1;
+//     int i, llave, j;
 
-        // Desplazar elementos mayores que llave hacia adelante
-        while (j >= 0 && lista[j] > llave) {
-            lista[j + 1] = lista[j];
-            j = j - 1;
-        }
+//     for (i = 1; i < n; i++) {
+//         llave = lista[i].duracion;
+//         j = i - 1;
 
-        // Colocar llave en su posición correcta
-        lista[j + 1] = llave;
-    }
+//         // Desplazar elementos mayores que llave hacia adelante
+//         while (j >= 0 && lista[j].duracion > llave) {
+//             lista[j + 1] = lista[j];
+//             j = j - 1;
+//         }
+
+//         // Colocar llave en su posición correcta
+//         lista[j + 1] = llave;
+//     }
 
 
-    fin = clock();
+//     fin = clock();
 
-    // Calcula el tiempo transcurrido en segundos
-    tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
+//     // Calcula el tiempo transcurrido en segundos
+//     tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
 
-    // Imprime el tiempo transcurrido
-    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
-}
+//     // Imprime el tiempo transcurrido
+//     printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
+// }
 
 void selectionSort(int lista[], int n) {
     clock_t inicio, fin;
@@ -222,44 +245,78 @@ void selectionSort(int lista[], int n) {
     printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 }
 
-void leeArchivo(){
-    FILE *archivo = fopen("spotify.csv", "r");
+void leeArchivo(char nombre_archivo[], int renglones, char genero[]){
+    FILE *archivo = fopen(nombre_archivo, "r");
     // Verifica que el archivo de abrio correctamente
     if(archivo == NULL){
         perror("No se pudo abrir el archivo.");
         exit(EXIT_FAILURE);
     }
 
+    struct Cancion canciones[1055]; 
+
     char linea[1000];
     int id_cancion_aux = 0;
+    printf("Extrayendo datos...\n");
     // Lee cada linea y lo almacena en "linea"
     while (fgets(linea, sizeof(linea), archivo) != NULL) {
         // Procesar la línea (aquí puedes dividir la línea en columnas)
         char *token = strtok(linea, ",");
         char auxiliar[10]; // Almacena el dato que se convertira a Integer
+        int bandera = 0;
         
-        struct Cancion cancion;
-        cancion.id = ++id_cancion_aux;
+
+        int actual_id = ++id_cancion_aux;
         token = strtok(NULL, ",");
-        strcpy(cancion.nombreCancion, token);
+        char actual_nombreCancion[100];
+        strcpy(actual_nombreCancion, token);
         token = strtok(NULL, ",");
-        strcpy(cancion.nombreAlbum, token);
+        char actual_nombreAlbum[50];
+        strcpy(actual_nombreAlbum, token);
         token = strtok(NULL, ",");
-        strcpy(cancion.genero, token);
+        char actual_genero[50];
+        strcpy(actual_genero, token);
         token = strtok(NULL, ",");
-        strcpy(cancion.nombreArtista, token);
+
+        char actual_nombreArtista[50];
+        strcpy(actual_nombreArtista, token);
         token = strtok(NULL, ",");
 
         strcpy(auxiliar, token);
-        cancion.duracion = atoi(auxiliar);
+        long int actual_duracion;
+        actual_duracion = atoi(auxiliar);
         token = strtok(NULL, ",");
 
-        /* Imprimir cadena */
-        printf("ID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
-        printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
-        printf("Nombre artista: %s\n", cancion.nombreArtista);
-        printf("Nombre del album: %s\n", cancion.nombreAlbum);
-        printf("Genero: %s\n", cancion.genero);
-        printf("Duracion: %ld ms\n", cancion.duracion);
+        struct Cancion cancion;
+        printf("Actual genero: %s", actual_genero);
+        if(!strcmp(genero, actual_genero)){
+            bandera = 1;
+            cancion.id = actual_id;
+            strcpy(cancion.nombreCancion, actual_nombreCancion);
+            strcpy(cancion.nombreArtista, actual_nombreArtista);
+            strcpy(cancion.nombreAlbum, actual_nombreAlbum);
+            strcpy(cancion.genero, actual_genero);
+            cancion.duracion = actual_duracion;
+
+            // Se inserta a la lista de canciones
+            if(!strcmp(genero, "pop")){
+                canciones_pop[cancion.id-1] = cancion;
+
+            }
+
+            printf("Cancion %d insertada.\n", cancion.id);
+        }else{
+            if(bandera = 1) break;
+        }
+
+        // printf("\nID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
+        // printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
+        // printf("Nombre artista: %s\n", cancion.nombreArtista);
+        // printf("Nombre del album: %s\n", cancion.nombreAlbum);
+        // printf("Genero: %s\n", cancion.genero);
+        // printf("Duracion: %ld ms\n", cancion.duracion);
+        
     }
+    printf("Extraccion completa.\n");
+    system("PAUSE");
 }
