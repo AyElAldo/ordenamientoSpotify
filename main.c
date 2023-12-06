@@ -16,6 +16,7 @@
 void despliegaMenu();
 void leeArchivo(char nombre_archivo[], int renglones, char genero[]);
 void intercambiarCanciones(struct Cancion *c1, struct Cancion *c2);
+void imprimirCancion(struct Cancion cancion);
 // Algoritmos de Ordenamiento
 void bubbleSort(struct Cancion lista[], int n);
 // void insertionSort(int lista[], int n);
@@ -23,13 +24,15 @@ void selectionSort(int lista[], int n);
 
 
 struct Cancion canciones_pop[1055];
+struct Cancion canciones_rap[1080];
+struct Cancion canciones_rock[1005];
+struct Cancion canciones_latin[964];
+struct Cancion canciones_ryb[866];
 
 int main(){
     int i;
     despliegaMenu();
-    // for(i = 0; i < 1055; i++){
-    //     printf("%d\n", canciones_pop[i].id);
-    // }
+    
     return 0;
 }
 
@@ -51,7 +54,6 @@ void despliegaMenu(){
         printf("3. ROCK\n");
         printf("4. LATIN\n");
         printf("5. R&B\n");
-        printf("6. EDM\n");
         printf("\n\n0. Salir del programa\n");
         printf("-------------------------------------------------\n");
         printf("Escoge el genero que te gustaria ordenar: ");
@@ -69,49 +71,57 @@ void despliegaMenu(){
             case 1:
                 // 1055 canciones
                 printf("\n-------------------------------------------------\n");
-                opcionOrdenamiento = eligeOrdenamiento();
                 leeArchivo("pop.csv",1055, "pop");
-                if(opcionOrdenamiento == 1){
-                    bubbleSort(canciones_pop, 1055);
-                }
+                bubbleSort(canciones_pop, 1055);
+                
                 for(i = 0; i < 1055; i++){
-                    printf("%s: %ld\n", canciones_pop[i].nombreCancion, canciones_pop[i].duracion);
+                    // printf("%s: %ld\n", canciones_pop[i].nombreCancion, canciones_pop[i].duracion);
+                    imprimirCancion(canciones_pop[i]);
                 }
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
                 break;
             case 2:
                 printf("\n-------------------------------------------------\n");
-                opcionOrdenamiento = eligeOrdenamiento();
-
+                leeArchivo("rap.csv",1080, "rap");
+                bubbleSort(canciones_rap, 1080);
+                for(i = 0; i < 1080; i++){
+                    // printf("%s: %ld\n", canciones_rap[i].nombreCancion, canciones_rap[i].duracion);
+                    imprimirCancion(canciones_rap[i]);
+                }
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
                 break;
             case 3:
                 printf("\n-------------------------------------------------\n");
-                opcionOrdenamiento = eligeOrdenamiento();
-
+                leeArchivo("rock.csv",1005, "rock");
+                bubbleSort(canciones_rock, 1005);
+                for(i = 0; i < 1005; i++){
+                    // printf("%s: %ld\n", canciones_rock[i].nombreCancion, canciones_rock[i].duracion);
+                    imprimirCancion(canciones_rock[i]);
+                }
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
                 break;
             case 4:
                 printf("\n-------------------------------------------------\n");
-                opcionOrdenamiento = eligeOrdenamiento();
-
+                leeArchivo("latin.csv",964, "latin");
+                bubbleSort(canciones_latin, 964);
+                for(i = 0; i < 964; i++){
+                    // printf("%s: %ld\n", canciones_latin[i].nombreCancion, canciones_latin[i].duracion);
+                    imprimirCancion(canciones_latin[i]);
+                }
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
                 break;
             case 5:
                 printf("\n-------------------------------------------------\n");
-                opcionOrdenamiento = eligeOrdenamiento();
-
-                system("PAUSE");
-                printf("-------------------------------------------------\n");
-                break;
-            case 6:
-                printf("\n-------------------------------------------------\n");
-                opcionOrdenamiento = eligeOrdenamiento();
-
+                leeArchivo("r&b.csv",964, "r&b");
+                bubbleSort(canciones_ryb, 866);
+                for(i = 0; i < 866; i++){
+                    // printf("%s: %ld\n", canciones_ryb[i].nombreCancion, canciones_ryb[i].duracion);
+                    imprimirCancion(canciones_ryb[i]);
+                }
                 system("PAUSE");
                 printf("-------------------------------------------------\n");
                 break;
@@ -160,10 +170,6 @@ void bubbleSort(struct Cancion lista[], int n) {
             // Comparar elementos adyacentes y realizar el intercambio si es necesario
             if (lista[j].duracion > lista[j + 1].duracion) {
                 intercambiarCanciones(&lista[j], &lista[j+1]);
-                
-                // lista[j] = lista[j] + lista[j + 1];
-                // lista[j + 1] = lista[j] - lista[j + 1];
-                // lista[j] = lista[j] - lista[j + 1];
             }
         }
     }
@@ -175,74 +181,6 @@ void bubbleSort(struct Cancion lista[], int n) {
 
     // Imprime el tiempo transcurrido
     printf("Tiempo BubbleSort en ordenar: %f segundos\n", tiempo_transcurrido);
-}
-
-// void insertionSort(struct Cancion lista[], int n) {
-//     clock_t inicio, fin;
-//     double tiempo_transcurrido;
-//     inicio = clock();
-
-//     struct Cancion cancion_aux;
-
-//     int i, llave, j;
-
-//     for (i = 1; i < n; i++) {
-//         llave = lista[i].duracion;
-//         j = i - 1;
-
-//         // Desplazar elementos mayores que llave hacia adelante
-//         while (j >= 0 && lista[j].duracion > llave) {
-//             lista[j + 1] = lista[j];
-//             j = j - 1;
-//         }
-
-//         // Colocar llave en su posición correcta
-//         lista[j + 1] = llave;
-//     }
-
-
-//     fin = clock();
-
-//     // Calcula el tiempo transcurrido en segundos
-//     tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
-
-//     // Imprime el tiempo transcurrido
-//     printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
-// }
-
-void selectionSort(int lista[], int n) {
-    clock_t inicio, fin;
-    double tiempo_transcurrido;
-    inicio = clock();
-
-    int i, j, minIndex;
-
-
-    for (i = 0; i < n - 1; i++) {
-        // Encontrar el índice del elemento mínimo en el sublista no ordenado
-        minIndex = i;
-        for (j = i + 1; j < n; j++) {
-            if (lista[j] < lista[minIndex]) {
-                minIndex = j;
-            }
-        }
-
-        // Intercambiar el elemento mínimo encontrado con el primer elemento del sublistaeglo no ordenado
-        if (minIndex != i) {
-            // Utilizar XOR sin variable temporal para intercambiar elementos
-            lista[i] = lista[i] ^ lista[minIndex];
-            lista[minIndex] = lista[i] ^ lista[minIndex];
-            lista[i] = lista[i] ^ lista[minIndex];
-        }
-    }
-
-    fin = clock();
-
-    // Calcula el tiempo transcurrido en segundos
-    tiempo_transcurrido = ((double) (fin - inicio)) / CLOCKS_PER_SEC;
-
-    // Imprime el tiempo transcurrido
-    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 }
 
 void leeArchivo(char nombre_archivo[], int renglones, char genero[]){
@@ -288,7 +226,6 @@ void leeArchivo(char nombre_archivo[], int renglones, char genero[]){
         token = strtok(NULL, ",");
 
         struct Cancion cancion;
-        printf("Actual genero: %s", actual_genero);
         if(!strcmp(genero, actual_genero)){
             bandera = 1;
             cancion.id = actual_id;
@@ -303,20 +240,39 @@ void leeArchivo(char nombre_archivo[], int renglones, char genero[]){
                 canciones_pop[cancion.id-1] = cancion;
 
             }
+            if(!strcmp(genero, "rap")){
+                canciones_rap[cancion.id-1] = cancion;
+
+            }
+            if(!strcmp(genero, "rock")){
+                canciones_rock[cancion.id-1] = cancion;
+
+            }
+            if(!strcmp(genero, "latin")){
+                canciones_latin[cancion.id-1] = cancion;
+
+            }
+            if(!strcmp(genero, "r&b")){
+                canciones_ryb[cancion.id-1] = cancion;
+
+            }
 
             printf("Cancion %d insertada.\n", cancion.id);
         }else{
             if(bandera = 1) break;
         }
 
-        // printf("\nID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
-        // printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
-        // printf("Nombre artista: %s\n", cancion.nombreArtista);
-        // printf("Nombre del album: %s\n", cancion.nombreAlbum);
-        // printf("Genero: %s\n", cancion.genero);
-        // printf("Duracion: %ld ms\n", cancion.duracion);
         
     }
     printf("Extraccion completa.\n");
     system("PAUSE");
+}
+
+void imprimirCancion(struct Cancion cancion){
+    // printf("\nID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
+    printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);
+    printf("Nombre artista: %s\n", cancion.nombreArtista);
+    printf("Nombre del album: %s\n", cancion.nombreAlbum);
+    printf("Genero: %s\n", cancion.genero);
+    printf("Duracion: %ld ms\n\n", cancion.duracion);
 }
