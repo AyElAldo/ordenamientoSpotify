@@ -1,6 +1,10 @@
 /**
- * Programa de ordenamiento de canciones de acuerdo al genero escogido
- * 
+ * @file main.c
+ * @author AyElAldo
+ * @brief Programa que realiza ordenamiento por duracion (en milisegundos) de acuerdo a un CSV de datos reales de canciones en Spotify.
+ * El usuario escoge el genero a ordenar. Se usa BubbleSort para el ordenamiento.
+ * @version 0.1
+ * @date 2020-12-11
  * 
  */
 
@@ -29,14 +33,20 @@ struct Cancion canciones_rock[1005];
 struct Cancion canciones_latin[964];
 struct Cancion canciones_ryb[866];
 
+/**
+ * @brief Cuerpo del programa.
+ * 
+ * @return int Retorna 0 si ha finalizado correctamente.
+ */
 int main(){
-    int i;
     despliegaMenu();
-    
     return 0;
 }
 
-/* Despliega el menu */
+/**
+ * @brief Despliega el menu y procesa las opciones a elegir del usuario para el ordenamiento de las listas
+ * 
+ */
 void despliegaMenu(){
     int i;
 
@@ -71,7 +81,7 @@ void despliegaMenu(){
             case 1:
                 // 1055 canciones
                 printf("\n-------------------------------------------------\n");
-                leeArchivo("pop.csv",1055, "pop");
+                leeArchivo("src/pop.csv",1055, "pop");
                 bubbleSort(canciones_pop, 1055);
                 
                 for(i = 0; i < 1055; i++){
@@ -83,7 +93,7 @@ void despliegaMenu(){
                 break;
             case 2:
                 printf("\n-------------------------------------------------\n");
-                leeArchivo("rap.csv",1080, "rap");
+                leeArchivo("src/rap.csv",1080, "rap");
                 bubbleSort(canciones_rap, 1080);
                 for(i = 0; i < 1080; i++){
                     // printf("%s: %ld\n", canciones_rap[i].nombreCancion, canciones_rap[i].duracion);
@@ -94,7 +104,7 @@ void despliegaMenu(){
                 break;
             case 3:
                 printf("\n-------------------------------------------------\n");
-                leeArchivo("rock.csv",1005, "rock");
+                leeArchivo("src/rock.csv",1005, "rock");
                 bubbleSort(canciones_rock, 1005);
                 for(i = 0; i < 1005; i++){
                     // printf("%s: %ld\n", canciones_rock[i].nombreCancion, canciones_rock[i].duracion);
@@ -105,7 +115,7 @@ void despliegaMenu(){
                 break;
             case 4:
                 printf("\n-------------------------------------------------\n");
-                leeArchivo("latin.csv",964, "latin");
+                leeArchivo("src/latin.csv",964, "latin");
                 bubbleSort(canciones_latin, 964);
                 for(i = 0; i < 964; i++){
                     // printf("%s: %ld\n", canciones_latin[i].nombreCancion, canciones_latin[i].duracion);
@@ -116,7 +126,7 @@ void despliegaMenu(){
                 break;
             case 5:
                 printf("\n-------------------------------------------------\n");
-                leeArchivo("r&b.csv",964, "r&b");
+                leeArchivo("src/r&b.csv",964, "r&b");
                 bubbleSort(canciones_ryb, 866);
                 for(i = 0; i < 866; i++){
                     // printf("%s: %ld\n", canciones_ryb[i].nombreCancion, canciones_ryb[i].duracion);
@@ -133,24 +143,11 @@ void despliegaMenu(){
 }
 
 /**
- * @brief Da a escoger el tipo de ordenamiento a usar
+ * @brief Intercambia la posicion de canciones haciendo uso de punteros
  * 
- * @return int: La opcion elegida por el usuario
+ * @param c1 Primera cancion
+ * @param c2 Segunda cancion
  */
-int eligeOrdenamiento(){
-    int opcionAlgoritmo;
-    system("CLS");
-    printf("\n-------------------------------------------------\n");
-    printf("1. Burbuja\n");
-    printf("2. Insercion\n");
-    printf("3. Seleccion\n");
-
-    printf("Elige el algoritmo de ordenamiento: ");
-    scanf("%d", &opcionAlgoritmo);
-    printf("-------------------------------------------------\n");
-    return opcionAlgoritmo;
-}
-
 void intercambiarCanciones(struct Cancion *c1, struct Cancion *c2){
     struct Cancion auxiliar = *c1;
     *c1 = *c2;
@@ -158,6 +155,12 @@ void intercambiarCanciones(struct Cancion *c1, struct Cancion *c2){
 
 }
 
+/**
+ * @brief Realiza ordenamiento burbuja y calcula el tiempo total en la implementacion del algoritmo a la lista deseada.
+ * 
+ * @param lista Lista de canciones
+ * @param n Numero de elementos en la lista a ordenar
+ */
 void bubbleSort(struct Cancion lista[], int n) {
     clock_t inicio, fin;
     double tiempo_transcurrido;
@@ -183,6 +186,13 @@ void bubbleSort(struct Cancion lista[], int n) {
     printf("Tiempo BubbleSort en ordenar: %f segundos\n", tiempo_transcurrido);
 }
 
+/**
+ * @brief Abre el archivo a analizar de acuerdo al genero escogido. Extrae por tokens cada dato de la cancion de cada linea y la almacena en un arreglo
+ * 
+ * @param nombre_archivo Nombre del archivo a extraer los datos de las canciones
+ * @param renglones Numero de renglones del archivo. A su vez contiene el numero de canciones
+ * @param genero Genero escogido a analizar
+ */
 void leeArchivo(char nombre_archivo[], int renglones, char genero[]){
     FILE *archivo = fopen(nombre_archivo, "r");
     // Verifica que el archivo de abrio correctamente
@@ -268,6 +278,11 @@ void leeArchivo(char nombre_archivo[], int renglones, char genero[]){
     system("PAUSE");
 }
 
+/**
+ * @brief Formato para imprimir la estructura cancion en consola
+ * 
+ * @param cancion Cancion a imprimir
+ */
 void imprimirCancion(struct Cancion cancion){
     // printf("\nID: %d\n", cancion.id);  // Usando "%ld" para imprimir un long int
     printf("Nombre de la Cancion: %s\n", cancion.nombreCancion);

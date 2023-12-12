@@ -2,7 +2,10 @@
 #define CANCION_H
 #include <stdio.h>
 
-// Definición de la estructura Cancion
+/**
+ * @brief Estructura de una cancion. Se guardaran datos reales descargados de un CSV existente en el sitio kaggle.com/datasheets
+ * 
+ */
 struct Cancion {
     int id;
     char nombreCancion[100];
